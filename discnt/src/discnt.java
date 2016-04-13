@@ -66,7 +66,7 @@ public class discnt
                 }
                 else {
                     double newDouble = (1.0 - (Double.parseDouble(line)/100));
-                    discount = new BigDecimal(newDouble).setScale(3, RoundingMode.UP).doubleValue(); //rounding number
+                    discount = new BigDecimal(newDouble).setScale(2, RoundingMode.HALF_UP).doubleValue(); //rounding number
                 }
             }
             br.close();
