@@ -160,7 +160,7 @@ public class hamstr
     static void write_to_file(int solution)
     {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(path + "/discnt.out", false));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(path + "/hamstr.out", false));
             DecimalFormat df = new DecimalFormat("#0");
             String dx = df.format(solution);
             writer.write(dx);
