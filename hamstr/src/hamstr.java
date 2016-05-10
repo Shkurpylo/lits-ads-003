@@ -1,8 +1,7 @@
 import java.io.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.TreeMap;
+
 
 /**
  * Created by anatolii on 30.04.16.
@@ -18,13 +17,15 @@ public class hamstr
 
     public static void main(String[] args)
     {
+        int[] result = new int[2];
         read_from_file();
         arrays = create_list_of_arrays(need_when_alone, need_in_group);
         selection_sort(need_in_group, arrays);
-        //quick_sort(need_in_group);
-        int result = count_hamsters(available_food, need_when_alone, need_in_group);
-        write_to_file(result);
-        //System.out.println(result);
+        result[0] = count_hamsters(available_food, need_when_alone, need_in_group);
+        selection_sort(need_when_alone, arrays);
+        result[1] = count_hamsters(available_food, need_when_alone, need_in_group);
+        int max_res = result[0] > result[1] ? result[0] : result[1];
+        write_to_file(result[0]);
 
     }
 
