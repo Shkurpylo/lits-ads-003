@@ -130,9 +130,8 @@ public class hamstr
         return arr[left];
     }
 
-    public static int[] shellSort(int[] arg)
+    public static int[] shellSort(int[] arr)
     {
-        int[] arr = arg.clone();
         int d = arr.length/2;
         while(d>0)
         {
