@@ -20,12 +20,15 @@ public class hamstr
         int[] result = new int[2];
         read_from_file();
         arrays = create_list_of_arrays(need_when_alone, need_in_group);
-        selection_sort(need_in_group, arrays);
+        //selection_sort(need_in_group, arrays);
+        shellSort(need_in_group);
         result[0] = count_hamsters(available_food, need_when_alone, need_in_group);
-        selection_sort(need_when_alone, arrays);
+        //selection_sort(need_when_alone, arrays);
+        shellSort(need_when_alone);
         result[1] = count_hamsters(available_food, need_when_alone, need_in_group);
         int max_res = result[0] > result[1] ? result[0] : result[1];
         write_to_file(max_res);
+        //System.out.println(max_res);
 
     }
 
@@ -125,6 +128,27 @@ public class hamstr
     static int get_pivot(int[] arr, int left, int right)
     {
         return arr[left];
+    }
+
+    public static int[] shellSort(int[] arg)
+    {
+        int[] arr = arg.clone();
+        int d = arr.length/2;
+        while(d>0)
+        {
+            for(int i = 0; i < arr.length - d; i++)
+            {
+                int j = i;
+                while((j >= 0) && (arr[j]) > arr[j + d])
+                {
+                    multi_swap(arrays,j, j+d);
+                    j--;
+
+                }
+            }
+            d = d/2;
+        }
+        return arr;
     }
 
     static void multi_swap(ArrayList<int[]> arrays, int first_index, int second_index)
