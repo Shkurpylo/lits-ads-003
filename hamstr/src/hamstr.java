@@ -25,7 +25,7 @@ public class hamstr
         selection_sort(need_when_alone, arrays);
         result[1] = count_hamsters(available_food, need_when_alone, need_in_group);
         int max_res = result[0] > result[1] ? result[0] : result[1];
-        write_to_file(result[0]);
+        write_to_file(max_res);
 
     }
 
