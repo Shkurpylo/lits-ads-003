@@ -92,7 +92,7 @@ public class sigkey
     static void read_from_file()
         {
         CharSequence a = "a";
-        try (BufferedReader br = new BufferedReader(new FileReader(path + "/06.in"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(path + "/sigkey.in"))) {
             String line;
             int counting_line = 0;
             while ((line = br.readLine()) != null) {
