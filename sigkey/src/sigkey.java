@@ -18,6 +18,7 @@ public class sigkey
         int[] summ = get_all_char_array();
 
         int result = pair_count(public_keys, private_keys, summ);
+        System.out.println(result);
         write_to_file(result);
 
     }
@@ -34,7 +35,7 @@ public class sigkey
                 int summ_of_keys = entry_private.getKey().get(0) + public_key;
                 int summ_of_values = entry_private.getValue() + public_value;
 
-                if (summ_of_values == summ[summ_of_keys - 2]) {
+                if ((summ_of_keys-2) < summ.length && summ_of_values == summ[summ_of_keys - 2])  {
                     result++;
                     //private_k.remove(entry_private.getKey());
                     break;
