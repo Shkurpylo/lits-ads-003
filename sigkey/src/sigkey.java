@@ -18,7 +18,7 @@ public class sigkey
         int[] summ = get_all_char_array();
 
         int result = pair_count(public_keys, private_keys, summ);
-        System.out.println(result);
+        //System.out.println(result);
         write_to_file(result);
 
     }
