@@ -114,8 +114,10 @@ public class sigkey
                         tmparr.add(1, tmp.hashCode() + tmp.length);
                         tmparr.add(2, random2);
 
-                        if(public_keys.containsKey(tmparr))
-                            System.out.println("colision!!!");
+                    /*
+                     *    if(public_keys.containsKey(tmparr))
+                     *        System.out.println("colision!!!");
+                     */
                         public_keys.put(tmparr, summ);
                         counting_line++;
                     }
