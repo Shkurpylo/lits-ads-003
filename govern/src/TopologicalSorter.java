@@ -30,8 +30,11 @@ public class TopologicalSorter
         while (unvisitedVertices.size() > 0)
         {
             Vertex unvisitedVertex = unvisitedVertices.stream().findFirst().get();
-            dfsRecursive(unvisitedVertex);
-            //unvisitedVertices.remove(unvisitedVertex);
+
+            /*chose DFS realization - recursive of stack ?*/
+
+            //dfsRecursive(unvisitedVertex);
+            dfsStack(unvisitedVertex);
         }
 
         return order;
@@ -60,6 +63,38 @@ public class TopologicalSorter
 
             visitedStatus.replace(vertex.getLabel(), VisitedStatus.VisitedAndResolved);
             order.add(vertex);
+        }
+    }
+    private void dfsStack(Vertex startVertex){
+        Stack<Vertex> stack = new Stack<Vertex>();
+        stack.push(startVertex);
+
+        while(!stack.isEmpty()){
+            Vertex vertex = stack.pop();
+            visitedStatus.replace(vertex.getLabel(), VisitedStatus.Visited);
+            if(unvisitedVertices.contains(vertex)){
+                unvisitedVertices.remove(vertex);
+            }
+
+            List<Vertex> unvisitedNeighbors = new ArrayList<>();
+            for(Edge edge : vertex.getOutboundEdges())
+            {
+                Vertex neighbor = edge.getEndVertex();
+
+                if(visitedStatus.get(neighbor.getLabel()) == VisitedStatus.Visited){
+                    throw new NotDirectedAcyclicGraphExeption();
+                }
+                if(visitedStatus.get(neighbor.getLabel()) == VisitedStatus.NonVisited) {
+                    unvisitedNeighbors.add(neighbor);
+                }
+            }
+            if(unvisitedNeighbors.isEmpty()){
+                visitedStatus.replace(vertex.getLabel(), VisitedStatus.VisitedAndResolved);
+                order.add(vertex);
+            } else {
+                stack.push(vertex);
+                stack.addAll(unvisitedNeighbors);
+            }
         }
     }
 }

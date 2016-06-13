@@ -2,7 +2,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -62,6 +61,7 @@ public class govern
             String orderFormatted = topologicalOrder.stream()
                     .map(v -> String.valueOf(v.getLabel()))
                     .collect(Collectors.joining("\n"));
+            //System.out.println(orderFormatted);
             writer.write(orderFormatted);
             writer.flush();
             writer.close();
