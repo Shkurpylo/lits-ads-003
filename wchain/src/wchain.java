@@ -13,7 +13,7 @@ public class wchain {
 
     public static void main(String[] args){
 
-        ArrayList<String> listOfWords = readFromFileToList(PATH + "wchain.in");
+        ArrayList<String> listOfWords = readFromFileToList(PATH + "/wchain.in");
         //Comparator, which will sort the Strings by length, from biggest to smaller
         Comparator<String> comparator = (str1, str2) -> Integer.compare(str1.length(), str2.length());
         //Sort the list
