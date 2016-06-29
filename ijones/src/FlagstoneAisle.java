@@ -3,25 +3,25 @@
  */
 
 public class FlagstoneAisle {
-    private int columns;
-    private int rows;
+    private int width;
+    private int height;
     private String[] letters;
 
-    public FlagstoneAisle(int columns, int height) {
-        this.columns = columns;
-        this.rows = height;
+    public FlagstoneAisle(int width, int height) {
+        this.width = width;
+        this.height = height;
         this.letters = new String[height];
     }
 
-    public int getColumns() { return columns; }
+    public int getWidth() { return width; }
 
-    public int getRows() { return rows; }
+    public int getHeight() { return height; }
 
     public String[] getLetters() { return letters; }
 
-    public void setColumns(int columns) { this.columns = columns; }
+    public void setWidth(int width) { this.width = width; }
 
-    public void setRows(int rows) { this.rows = rows; }
+    public void setHeight(int height) { this.height = height; }
 
     public void setLetters(String[] letters) { this.letters = letters;}
 }
