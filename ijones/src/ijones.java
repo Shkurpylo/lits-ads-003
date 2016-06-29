@@ -13,18 +13,18 @@ public class ijones {
 
     public static void main(String[] args) throws IOException {
 
-        FlagstoneAisle aisle = readFromFileToList(PATH + "/ijones.in");
+        FlagstoneAisle aisle = readFromFileToList(PATH + "/testcases/05.in");
         BigInteger result = FindAllPossibleTracks(aisle);
-        //System.out.println(result);
+        System.out.println(result);
         writeToFile(result);
 
     }
     private static BigInteger FindAllPossibleTracks(FlagstoneAisle aisle){
 
-        int width = aisle.getWidth();
-        int height = aisle.getHeight();
         String[] letters = aisle.getLetters();
-        BigInteger[][] resultsMatrix = new BigInteger[height][width];
+        int columns = aisle.getColumns();
+        int rows = aisle.getRows();
+        BigInteger[][] resultsMatrix = new BigInteger[rows][columns];
         Map<Character, BigInteger> allPathToLetterCount = new HashMap<>();
         char[] allChars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
         for(Character ch : allChars){
@@ -32,28 +32,28 @@ public class ijones {
         }
 
         //set result in first column
-        for(int i = 0; i < height; i++){
+        for(int i = 0; i < rows; i++){
             Character letter  = letters[i].charAt(0);
             allPathToLetterCount.put(letter, allPathToLetterCount.get(letter).add(BigInteger.ONE));
             resultsMatrix[i][0] = BigInteger.ONE;
         }
         // set result in other columns
-        for(int j = 1; j < width; j++){
-            for(int i = 0; i < height; i++){
+        for(int j = 1; j < columns; j++){
+            for(int i = 0; i < rows; i++){
                 resultsMatrix[i][j] = allPathToLetterCount.get(letters[i].charAt(j));
                 if(letters[i].charAt(j) != letters[i].charAt(j - 1)){
                     resultsMatrix[i][j] = resultsMatrix[i][j].add(resultsMatrix[i][j-1]);
                 }
             }
             //after column result iteration, add new possible path to existing, for each letter;
-            for(int i = 0; i < height; i++){
+            for(int i = 0; i < rows; i++){
                 Character letter = letters[i].charAt(j);
                 allPathToLetterCount.put(letter, allPathToLetterCount.get(letter).add(resultsMatrix[i][j]));
             }
         }
 
-        BigInteger allPossibleTracks = height == 1 ? resultsMatrix[height-1][width-1] :
-                resultsMatrix[0][width-1].add(resultsMatrix[height-1][width-1]);
+        BigInteger allPossibleTracks = rows == 1 ? resultsMatrix[rows-1][columns-1] :
+                resultsMatrix[0][columns-1].add(resultsMatrix[rows-1][columns-1]);
 
         return allPossibleTracks;
     }
@@ -64,10 +64,10 @@ public class ijones {
             String line;
             line = br.readLine();
             String[] arr = line.split(" ");
-            int wigth = Integer.parseInt(arr[0]);
-            int height = Integer.parseInt(arr[1]);
-            FlagstoneAisle aisle = new FlagstoneAisle(wigth, height);
-            for(int i = 0; i < height; i++){
+            int columns = Integer.parseInt(arr[0]);
+            int rows = Integer.parseInt(arr[1]);
+            FlagstoneAisle aisle = new FlagstoneAisle(columns, rows);
+            for(int i = 0; i < rows; i++){
                 String string = br.readLine();
                 aisle.getLetters()[i] = string;
             }
