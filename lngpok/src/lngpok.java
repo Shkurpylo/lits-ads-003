@@ -3,88 +3,88 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
-/**
- * Created by anatolii on 04.05.16.
- */
-public class lngpok
-{
-    static String path = System.getProperty("user.dir");
+
+public class lngpok {
+
+    final static String PATH = System.getProperty("user.dir");
     static int jokers;
 
-    public static void main(String[] args)
-    {
-        TreeSet<Integer> cards = getArrayListOfIntFromStringArray(readFromFile());
+    public static void main(String[] args){
+        TreeSet<Integer> cards = getListOfIntFromStringArray(readFromFile());
         int result = maxConsistency(cards);
         writeToFile(result);
         //System.out.println(result);
-
     }
 
-    static int maxConsistency(TreeSet<Integer> sorted_cards)
-    {
-        if (sorted_cards.size() == 0)                        // if we have jokers only
+
+    private static int maxConsistency(TreeSet<Integer> sortedCards) {
+        if (sortedCards.size() == 0) {                       // if we have jokers only
             return jokers;
-        else if (sorted_cards.size() == 1)                    // if we have only one card
+        } else if (sortedCards.size() == 1) {               // if we have only one card
             return jokers + 1;
-
-        ArrayList<Integer> clone_of_sorted_cards = new ArrayList<>();
-        ArrayList<Integer> results = new ArrayList<Integer>();
-
-        for(int card : sorted_cards) {
-            clone_of_sorted_cards.add(card);
         }
-        for(int i = 0; i < clone_of_sorted_cards.size() - 1; i++)
-            {
-                int result = 1;
-                int available_jokers = jokers;
-                int diference = 1;
-                int j = i;
-                while (available_jokers >= 0 && j < clone_of_sorted_cards.size() - 1)
-                {
-                    int this_card = clone_of_sorted_cards.get(j + 1);
-                    int previous_card = clone_of_sorted_cards.get(j);
-                    diference = this_card - previous_card - 1;
-                    if (available_jokers - diference >= 0) {
-                        available_jokers -= diference;
-                        result += 1 + diference;
-                    }
-                    else
-                        break;
 
-                    j++;
+        ArrayList<Integer> cloneOfSortedCards = new ArrayList<>();
+        ArrayList<Integer> results = new ArrayList<>();
 
+        for(int card : sortedCards) {
+            cloneOfSortedCards.add(card);
+        }
+
+        for(int i = 0; i < cloneOfSortedCards.size() - 1; i++) {
+            int result = 1;
+            int availableJokers = jokers;
+            int diference = 1;
+
+            int j = i;
+            while (availableJokers >= 0 && j < cloneOfSortedCards.size() - 1) {
+                int thisCard = cloneOfSortedCards.get(j + 1);
+                int previousCard = cloneOfSortedCards.get(j);
+                diference = thisCard - previousCard - 1;
+
+                if (availableJokers - diference >= 0) {
+                    availableJokers -= diference;
+                    result += 1 + diference;
+                } else {
+                    break;
                 }
-                if (available_jokers > 0)
-                    result += available_jokers;
-                results.add(result);
+
+                j++;
             }
-        int max_consistency = 0;
-        for (int result : results)
-        {
-            max_consistency = max_consistency < result ? result : max_consistency;
+
+            if (availableJokers > 0) {
+                result += availableJokers;
+            }
+
+            results.add(result);
         }
-        return max_consistency;
+
+        int maxConsistency = 0;
+
+        for (int result : results) {
+            maxConsistency = maxConsistency < result ? result : maxConsistency;
+        }
+
+        return maxConsistency;
     }
 
 
-    static TreeSet<Integer> getArrayListOfIntFromStringArray(String[] strings)
-    {
+    private static TreeSet<Integer> getListOfIntFromStringArray(String[] strings) {
         TreeSet<Integer> cards = new TreeSet<Integer>();
-        for(String st : strings)
-        {
+        for(String st : strings) {
             int card = Integer.parseInt(st);
-            if (card == 0)
+            if (card == 0) {
                 jokers++;
-            else
+            } else {
                 cards.add(card);
+            }
         }
         return cards;
     }
 
-    static String[] readFromFile()
-    {
-        try (BufferedReader br = new BufferedReader(new FileReader(path + "/lngpok.in")))
-        {
+
+    private static String[] readFromFile() {
+        try (BufferedReader br = new BufferedReader(new FileReader(PATH + "/lngpok.in"))) {
             String line = br.readLine();
             String[] tmp = line.split(" ");
             br.close();
@@ -94,19 +94,18 @@ public class lngpok
         {
             System.out.println("There is no file in current directory...");
         }
-       return null;
+        return null;
     }
-    static void writeToFile(double solution)
-    {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(path + "/lngpok.out", false));
+
+
+    private static void writeToFile(double solution) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH + "/lngpok.out", false))) {
             DecimalFormat df = new DecimalFormat("#0");
             String dx = df.format(solution);
             writer.write(dx);
             writer.flush();
             writer.close();
-        }
-        catch (Exception e) {
+        }  catch (IOException e) {
             System.out.print("Exception in writting file");
         }
     }
