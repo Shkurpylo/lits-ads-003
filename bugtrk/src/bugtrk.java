@@ -2,77 +2,71 @@ import java.io.*;
 import java.text.DecimalFormat;
 import java.math.BigInteger;
 
-/**
- * Created by anatolii on 18.05.16.
- */
-public class bugtrk
-{
-    static String path = System.getProperty("user.dir");
+//on the conditions of verification, the class name should be only like this
+public class bugtrk {
+
+    final static String PATH = System.getProperty("user.dir");
     static long quantity;
     static long width;
     static long hight;
 
-    public static void main(String[] args)
-    {
-        getCondition(read_from_file());
-        BigInteger area_of_all_pages = calcarea(quantity, width, hight);
-        BigInteger min_square_side = count_side_size(area_of_all_pages, quantity, width, hight);
-        write_to_file(min_square_side);
-        //System.out.println(min_square_side);
 
+    public static void main(String[] args) {
+        getCondition(readFromFile());
+        BigInteger areaOfAllPages = calcArea(quantity, width, hight);
+        BigInteger minSquareSide = countSideSize(areaOfAllPages, quantity, width, hight);
+        writeToFile(minSquareSide);
     }
-    static BigInteger count_side_size(BigInteger area, long quantity, long width, long hight)
-    {
-        BigInteger big_quantity = BigInteger.valueOf(quantity);
-        BigInteger biggest_page_side = BigInteger.valueOf(width > hight ? width : hight);
-        long smallest_page_size = width < hight ? width : hight;
-        BigInteger big_two = BigInteger.valueOf(2);
-        BigInteger big_smallest_page_size = BigInteger.valueOf(width < hight ? width : hight);
-        BigInteger probably_side_size = biggest_page_side.multiply(big_quantity);
-        BigInteger side_capasity = (probably_side_size.divide(biggest_page_side)).divide(big_two);
-        if (biggest_page_side.compareTo(big_smallest_page_size.multiply(big_quantity)) >= 0)
-            return biggest_page_side;
-        else if (quantity == 1)
-            return biggest_page_side;
-        else if (quantity == 2)
-            return BigInteger.valueOf(smallest_page_size*2);
-        else
-        {
-            while ((probably_side_size.multiply(probably_side_size)).compareTo(area) >= 0) {
-                if ((probably_side_size.subtract(side_capasity.multiply(biggest_page_side)).multiply(probably_side_size.subtract(side_capasity.multiply(biggest_page_side))).compareTo(area) >= 0)) {
-                    probably_side_size = probably_side_size.subtract(biggest_page_side.multiply(side_capasity));
-                    side_capasity = side_capasity.divide(big_two);
-                }
-                else {
-                    probably_side_size = probably_side_size.subtract(biggest_page_side);
+
+
+    private static BigInteger countSideSize(BigInteger area, long quantity, long width, long hight) {
+        BigInteger bigTwo = BigInteger.valueOf(2);
+        BigInteger bigQuantity = BigInteger.valueOf(quantity);
+        BigInteger biggestPageSide = BigInteger.valueOf(width > hight ? width : hight);
+        BigInteger bigSmallestPageSize = BigInteger.valueOf(width < hight ? width : hight);
+        BigInteger probablySideSize = biggestPageSide.multiply(bigQuantity);
+        BigInteger sideCapacity = (probablySideSize.divide(biggestPageSide)).divide(bigTwo);
+        
+        if (biggestPageSide.compareTo(bigSmallestPageSize.multiply(bigQuantity)) >= 0) {
+            return biggestPageSide;
+        } else if (quantity == 1) {
+            return biggestPageSide;
+        } else if (quantity == 2) {
+            return bigSmallestPageSize.multiply(bigTwo);
+        } else {
+            while ((probablySideSize.multiply(probablySideSize)).compareTo(area) >= 0) {
+                if ((probablySideSize.subtract(sideCapacity.multiply(biggestPageSide)).multiply(probablySideSize.subtract(sideCapacity.multiply(biggestPageSide))).compareTo(area) >= 0)) {
+                    probablySideSize = probablySideSize.subtract(biggestPageSide.multiply(sideCapacity));
+                    sideCapacity = sideCapacity.divide(bigTwo);
+                } else {
+                    probablySideSize = probablySideSize.subtract(biggestPageSide);
                 }
             }
-
         }
-        return  probably_side_size.add(biggest_page_side);
+
+        return  probablySideSize.add(biggestPageSide);
     }
 
-    static BigInteger calcarea(long quantity, long width, long hight)
-    {
-        BigInteger big_quantity = BigInteger.valueOf(quantity);
-        BigInteger big_width = BigInteger.valueOf(width);
-        BigInteger big_hight = BigInteger.valueOf(hight);
 
-        BigInteger a = big_quantity.multiply(big_hight).multiply(big_width);
-        return a;
+    private static BigInteger calcArea(long quantity, long width, long hight) {
+        BigInteger bigQuantity = BigInteger.valueOf(quantity);
+        BigInteger bigWidth = BigInteger.valueOf(width);
+        BigInteger bigHight = BigInteger.valueOf(hight);
+        BigInteger area = bigQuantity.multiply(bigHight).multiply(bigWidth);
+        return area;
     }
 
-    static void getCondition(String[] strings)
-    {
+
+    private static void getCondition(String[] strings) {
         quantity = Long.parseLong(strings[0]);
         width = Long.parseLong(strings[1]);
         hight = Long.parseLong(strings[2]);
     }
-    static String[] read_from_file()
-    {
+
+
+    private static String[] readFromFile() {
         String[] strings = new String[3];
-        try (BufferedReader br = new BufferedReader(new FileReader(path + "/bugtrk.in")))
-        {
+        try (BufferedReader br = new BufferedReader(new FileReader(PATH + "/bugtrk.in"))) {
             String line;
             line = br.readLine();
             strings = line.split(" ");
@@ -82,17 +76,17 @@ public class bugtrk
         }
         return strings;
     }
-    static void write_to_file(BigInteger solution)
-    {
+
+
+    private static void writeToFile(BigInteger solution) {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(path + "/bugtrk.out", false));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(PATH + "/bugtrk.out", false));
             DecimalFormat df = new DecimalFormat("#0");
             String dx = df.format(solution);
             writer.write(dx);
             writer.flush();
             writer.close();
-        }
-        catch (Exception e) {
+        } catch (IOException e) {
             System.out.print("Exception in writting file");
         }
     }
